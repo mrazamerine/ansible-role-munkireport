@@ -1,0 +1,15 @@
+# MunkiReport tasks - mysql.yml
+---
+- name: create munkireport mysql database
+  mysql_db:
+    db: munkireport
+    state: present
+    encoding: utf8
+    collation: utf8_bin
+
+- name: create munkireport mysql user
+  mysql_user:
+    name: mysql_munkireport_user
+    password: "{{ mysql_munkireport_password }}"
+    priv: 'munkireport.*:ALL,GRANT'
+    state: present

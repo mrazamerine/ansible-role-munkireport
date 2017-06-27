@@ -1,0 +1,72 @@
+# MunkiReport tasks - main.yml
+---
+- name: create munkireport user
+  user:
+    name: munkireport
+    comment: "MunkiReport User"
+    shell: /bin/bash
+    system: yes
+
+- name: include facts tasks
+  include: facts.yml
+
+- name: ufw - allow http/https connections
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+  with_items:
+    - http
+    - https
+
+- name: install required packages - munkireport
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - php7.0-fpm
+    - php7.0-mysql
+    - php7.0-xml
+
+- name: include mysql tasks
+  include: mysql.yml
+
+- name: clone munkireport github repo
+  git:
+    repo: 'https://github.com/munkireport/munkireport-php.git'
+    dest: /usr/share/nginx/html/munkireport
+    clone: yes
+    update: yes
+  notify:
+    - restart nginx
+    - restart php7
+
+- name: modify php settings
+  lineinfile:
+    path: /etc/php/7.0/fpm/php.ini
+    regexp: '.*cgi.fix_pathinfo='
+    line: 'cgi.fix_pathinfo=0'
+  notify:
+    - restart nginx
+    - restart php7
+
+- name: apply munkireport config.php template
+  template:
+    src: config.php.j2
+    dest: /usr/share/nginx/html/munkireport/config.php
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nginx
+    - restart php7
+
+- name: include nginx tasks
+  include: nginx.yml
+
+- name: ensure web services are running
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - nginx
+    - php7.0-fpm

@@ -1,0 +1,59 @@
+<?php if ( ! defined( 'KISS' ) ) exit;
+
+/*
+|===============================================
+| MunkiReport Server Configuration
+|===============================================
+*/
+$conf['index_page'] = 'index.php?';
+$conf['sitename'] = '{{ munkireport_site_name }}';
+$conf['allow_migrations'] = {{ munkireport_allow_migrations }};
+$conf['debug'] = {{ munkireport_debug }};
+$conf['timezone'] = @date_default_timezone_get({{ time_zone }}); //your time zone see http://php.net/manual/en/timezones.php
+$conf['vnc_link'] = "vnc://%s:5900";
+$conf['ssh_link'] = "ssh://{{ mac_local_admin_username }}@%s";
+ini_set('session.cookie_lifetime', 43200);
+$conf['locale'] = 'en_US';
+$conf['lang'] = 'en';
+$conf['keep_previous_displays'] = TRUE;
+$conf['temperature_unit'] = 'F';
+$conf['disk_thresholds'] = array('danger' => 25, 'warning' => 100);
+$conf['request_timeout'] = 15;
+$conf['auth_secure'] = TRUE;
+
+// MunkiReport Modules
+$conf['modules'] = array({{ munkireport_modules }});
+
+// MunkiReport Tracked Apps
+$conf['apps_to_track'] = array({{ munkireport_apps_to_track }});
+
+
+
+/*
+|===============================================
+| Authorized Users of MunkiReport
+|===============================================
+| Visit http://{{ munkireport_domain_name }}/munkireport/index.php?/auth/generate to generate additional local values
+*/
+// MunkiReport User Credentials
+{{ munkireport_credentials }}
+
+// MunkiReport Admins
+$conf['roles']['admin'] = array({{ munkireport_roles_admins }});
+
+// MunkiReport Users
+$conf['roles']['user'] = array({{ munkireport_roles_users }});
+
+// Client Secret Passphrase
+$conf['client_passphrases'] = array({{ munkireport_client_passphrases }});
+
+
+/*
+|===============================================
+| PDO Datasource
+|===============================================
+*/
+$conf['pdo_dsn'] = 'mysql:host=localhost;dbname=munkireport';
+$conf['pdo_user'] = 'mysql_munkireport_user';
+$conf['pdo_pass'] = '{{ mysql_munkireport_password }}';
+$conf['pdo_opts'] = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');

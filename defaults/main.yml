@@ -1,0 +1,73 @@
+# MunkiReport defaults - main.yml
+--- 
+mac_local_admin_username: mac-admin
+
+munkireport_allow_migrations: FALSE
+
+munkireport_apps_to_track: |
+  'iTunes',
+  'Safari'
+
+munkireport_client_passphrases: secretclientpassphrase
+
+munkireport_credentials:
+
+munkireport_debug: TRUE
+
+munkireport_domain_name: "{{ ansible_local.ansible_default_ipv4.address }}"
+
+munkireport_modules: |
+  'appusage',
+  'ard',
+  'backup2go',
+  'bluetooth',
+  'caching',
+  'certificate',
+  'crashplan',
+  'deploystudio',
+  'directory_service',
+  'disk_report',
+  'displays_info',
+  'fan_temps',
+  'filevault_status',
+  'findmymac',
+  'fonts',
+  'gpu',
+  'gsx',
+  'homebrew',
+  'homebrew_info',
+  'installhistory',
+  'inventory',
+  'localadmin',
+  'location',
+  'managedinstalls',
+  'mbbr_status',
+  'munkiinfo',
+  'munkireport',
+  'munkireportinfo',
+  'network',
+  'network_shares',
+  'power',
+  'printer',
+  'profile',
+  'sccm_status',
+  'security',
+  'servermetrics',
+  'service',
+  'smart_stats',
+  'softwareupdate',
+  'timemachine',
+  'usb',
+  'user_sessions',
+  'warranty',
+  'wifi'
+
+munkireport_roles_admins:
+
+munkireport_roles_users:
+
+munkireport_site_name: "MunkiReport"
+
+mysql_munkireport_password: mysqlmunkireportpassword
+
+time_zone: "'America/Los_Angles'"
