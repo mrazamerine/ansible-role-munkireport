@@ -2,7 +2,7 @@
 ---
 - name: apply nginx sites-available template
   template:
-    src: "{{ ansible_local.munkireport.ssl.sites_available }}sites-available.munkireport.j2"
+    src: "{{ ansible_local.munkireport.security.ssl }}.sites-available.munkireport.j2"
     dest: /etc/nginx/sites-available/munkireport
     owner: root
     group: root

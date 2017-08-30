@@ -7,12 +7,12 @@ CERT_INSTALLED=$(if [ -d /etc/letsencrypt/live/{{ munkireport_domain_name }} ]; 
 
 CONFIG_INSTALLED=$(if [ -f /etc/letsencrypt/options-ssl-nginx.conf ]]; then echo 'True'; else echo 'False'; fi)
 
-SITES_AVAILABLE=$(
+SSL=$(
     if [[ -d /etc/letsencrypt/live/{{ munkireport_domain_name }} && -f /etc/letsencrypt/options-ssl-nginx.conf ]];
     then
-        echo 'ssl.';
+        echo 'https';
     else
-        echo '';
+        echo 'http';
     fi
 )
 
@@ -23,5 +23,5 @@ echo [letsencrypt]
 echo cert_installed=$(echo "$CERT_INSTALLED")
 echo config_installed=$(echo "$CONFIG_INSTALLED")
 
-echo [ssl]
-echo sites_available=$(echo "$SITES_AVAILABLE")
+echo [security]
+echo ssl=$(echo "$SSL")
