@@ -5,10 +5,10 @@
 
 CERT_INSTALLED=$(if [ -d /etc/letsencrypt/live/{{ munkireport_domain_name }} ]; then echo 'True'; else echo 'False'; fi)
 
-CONFIG_INSTALLED=$(if [ -f /etc/letsencrypt/options-ssl-nginx.conf ]]; then echo 'True'; else echo 'False'; fi)
+CONFIG_INSTALLED=$(if [ -f /etc/nginx/snippets/ssl-nginx-params.conf ]]; then echo 'True'; else echo 'False'; fi)
 
 SSL=$(
-    if [[ -d /etc/letsencrypt/live/{{ munkireport_domain_name }} && -f /etc/letsencrypt/options-ssl-nginx.conf ]];
+    if [[ -d /etc/letsencrypt/live/{{ munkireport_domain_name }} && -f /etc/nginx/snippets/ssl-nginx-params.conf ]];
     then
         echo 'https';
     else
