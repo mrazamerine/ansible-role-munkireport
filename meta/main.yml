@@ -1,6 +1,0 @@
-# MunkiReport meta - main.yml
----
-dependencies:
-  - { role: ufw }
-  - { role: nginx }
-  - { role: mysql, mysql_root_password: 733a263b3729782e7e4c3d4f504e41212757484763643a3c2f55687d7d }
