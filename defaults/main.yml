@@ -1,6 +1,6 @@
 # MunkiReport defaults - main.yml
 --- 
-mac_local_admin_username: mac-admin
+mac_local_admin_username: macadmin
 
 munkireport_allow_migrations: FALSE
 
@@ -12,7 +12,11 @@ munkireport_client_passphrases: secretclientpassphrase
 
 munkireport_credentials:
 
-munkireport_debug: TRUE
+munkireport_debug: FALSE
+
+munkireport_disk_thresholds_danger: 25
+
+munkireport_disk_thresholds_warning: 100
 
 munkireport_domain_name: "{{ ansible_local.ansible_default_ipv4.address }}"
 
@@ -70,4 +74,4 @@ munkireport_site_name: "MunkiReport"
 
 mysql_munkireport_password: mysqlmunkireportpassword
 
-time_zone: "'America/Los_Angles'"
+munkireport_time_zone: "'America/Los_Angles'"

@@ -9,7 +9,7 @@ $conf['index_page'] = 'index.php?';
 $conf['sitename'] = '{{ munkireport_site_name }}';
 $conf['allow_migrations'] = {{ munkireport_allow_migrations }};
 $conf['debug'] = {{ munkireport_debug }};
-$conf['timezone'] = @date_default_timezone_get({{ time_zone }}); //your time zone see http://php.net/manual/en/timezones.php
+$conf['timezone'] = @date_default_timezone_get({{ munkireport_time_zone }}); //your time zone see http://php.net/manual/en/timezones.php
 $conf['vnc_link'] = "vnc://%s:5900";
 $conf['ssh_link'] = "ssh://{{ mac_local_admin_username }}@%s";
 ini_set('session.cookie_lifetime', 43200);
@@ -17,7 +17,7 @@ $conf['locale'] = 'en_US';
 $conf['lang'] = 'en';
 $conf['keep_previous_displays'] = TRUE;
 $conf['temperature_unit'] = 'F';
-$conf['disk_thresholds'] = array('danger' => 25, 'warning' => 100);
+$conf['disk_thresholds'] = array('danger' => {{ munkireport_disk_thresholds_danger }}, 'warning' => {{ munkireport_disk_thresholds_warning }});
 $conf['request_timeout'] = 15;
 $conf['auth_secure'] = TRUE;
 
