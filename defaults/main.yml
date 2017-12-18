@@ -20,6 +20,8 @@ munkireport_disk_thresholds_warning: 100
 
 munkireport_domain_name: "{{ ansible_local.ansible_default_ipv4.address }}"
 
+munkireport_google_maps_api_key:
+
 munkireport_modules: |
   'appusage',
   'ard',
