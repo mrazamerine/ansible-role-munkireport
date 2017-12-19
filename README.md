@@ -23,6 +23,8 @@ Ansible role for setting up and configuring munkireport.
 
 * **munkireport\_domain\_name** – Domain name (string) [*IPv4 address*]
 
+* **munkireport\_google\_maps\_api\_key** – Google Maps API key for Location Report (string)
+
 * **munkireport\_modules** – Modules to install on clients (array) [*all modules*]
 
 * **munkireport\_roles\_admins** – Munkireport admin users (array)
