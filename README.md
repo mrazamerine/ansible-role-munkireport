@@ -15,6 +15,8 @@ Ansible role for setting up and configuring munkireport.
 
 * **munkireport\_credentials** – MR user credentials (array)
 
+* **munkireport\_dashboard\_layout** – Munkireport dashboard layout (list of arrays)
+
 * **munkireport\_debug** – Set debug mode (boolean) [FALSE]
 
 * **munkireport\_disk\_thresholds\_danger** – Storage (GB) remaing danger threshold (int) [25]

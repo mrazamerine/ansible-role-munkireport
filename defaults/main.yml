@@ -12,6 +12,11 @@ munkireport_client_passphrases: secretclientpassphrase
 
 munkireport_credentials:
 
+munkireport_dashboard_layout: |
+  array('client', 'messages'), /*client is actually two widgets*/
+  array('new_clients', 'pending_apple', 'pending_munki'),
+  array('munki', 'disk_report', 'uptime')
+
 munkireport_debug: FALSE
 
 munkireport_disk_thresholds_danger: 25
