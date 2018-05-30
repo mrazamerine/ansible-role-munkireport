@@ -7,7 +7,6 @@
 */
 $conf['index_page'] = 'index.php?';
 $conf['sitename'] = '{{ munkireport_site_name }}';
-$conf['allow_migrations'] = {{ munkireport_allow_migrations }};
 $conf['debug'] = {{ munkireport_debug }};
 $conf['timezone'] = @date_default_timezone_get({{ munkireport_time_zone }}); //your time zone see http://php.net/manual/en/timezones.php
 $conf['vnc_link'] = "vnc://%s:5900";
@@ -63,10 +62,18 @@ $conf['client_passphrases'] = array({{ munkireport_client_passphrases }});
 
 /*
 |===============================================
-| PDO Datasource
+| Database Configuration
 |===============================================
 */
-$conf['pdo_dsn'] = 'mysql:host=localhost;dbname=munkireport';
-$conf['pdo_user'] = 'mysql_munkireport_user';
-$conf['pdo_pass'] = '{{ mysql_munkireport_password }}';
-$conf['pdo_opts'] = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+$conf['connection'] = [
+    'driver'    => 'mysql',
+    'host'      => '127.0.0.1',
+    'port'      => 3306,
+    'database'  => 'munkireport',
+    'username'  => 'mysql_munkireport_user',
+    'password'  => '{{ mysql_munkireport_password }}',
+    'charset' => 'utf8mb4',
+    'collation' => 'utf8mb4_unicode_ci',
+    'strict' => true,
+    'engine' => 'InnoDB',
+];
