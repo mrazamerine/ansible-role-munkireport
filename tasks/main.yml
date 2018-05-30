@@ -21,7 +21,7 @@
     - php7.0-xml
     - php7.0-zip
   
-  - name: install composer
+- name: install composer
   shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
   args:
     creates: /usr/local/bin/composer
@@ -35,6 +35,7 @@
     dest: "{{ munkireport_directory }}"
     clone: yes
     update: yes
+    version: "{{ munkireport_version }}"
   notify:
     - restart nginx
     - restart php7
@@ -45,6 +46,9 @@
     no_dev: yes
     optimize_autoloader: yes
     working_dir: "{{ munkireport_directory }}"
+  notify:
+    - restart nginx
+    - restart php7
 
 - name: modify php settings
   lineinfile:

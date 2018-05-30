@@ -81,6 +81,8 @@ munkireport_roles_users:
 
 munkireport_site_name: "MunkiReport"
 
+munkireport_version: master
+
 mysql_munkireport_password: mysqlmunkireportpassword
 
 munkireport_time_zone: "'America/Los_Angles'"
