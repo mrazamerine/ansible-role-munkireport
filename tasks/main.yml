@@ -20,6 +20,11 @@
     - php7.0-mysql
     - php7.0-xml
     - php7.0-zip
+  
+  - name: install composer
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  args:
+    creates: /usr/local/bin/composer
 
 - name: include mysql tasks
   include: mysql.yml
@@ -33,6 +38,13 @@
   notify:
     - restart nginx
     - restart php7
+
+- name: install composer dependencies
+  composer:
+    command: install
+    no_dev: yes
+    optimize_autoloader: yes
+    working_dir: /usr/share/nginx/html/munkireport
 
 - name: modify php settings
   lineinfile:
