@@ -19,6 +19,8 @@ munkireport_dashboard_layout: |
 
 munkireport_debug: FALSE
 
+munkireport_directory: /srv/munkireport
+
 munkireport_disk_thresholds_danger: 25
 
 munkireport_disk_thresholds_warning: 100

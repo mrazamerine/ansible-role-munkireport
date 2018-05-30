@@ -32,7 +32,7 @@
 - name: clone munkireport github repo
   git:
     repo: 'https://github.com/munkireport/munkireport-php.git'
-    dest: /usr/share/nginx/html/munkireport
+    dest: "{{ munkireport_directory }}"
     clone: yes
     update: yes
   notify:
@@ -44,7 +44,7 @@
     command: install
     no_dev: yes
     optimize_autoloader: yes
-    working_dir: /usr/share/nginx/html/munkireport
+    working_dir: "{{ munkireport_directory }}"
 
 - name: modify php settings
   lineinfile:
@@ -58,7 +58,7 @@
 - name: apply munkireport config.php template
   template:
     src: config.php.j2
-    dest: /usr/share/nginx/html/munkireport/config.php
+    dest: "{{ munkireport_directory }}/config.php"
     owner: root
     group: root
     mode: 0644
