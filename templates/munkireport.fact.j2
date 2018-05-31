@@ -16,6 +16,15 @@ SSL=$(
     fi
 )
 
+BECOME=$(
+    if [[ -d {{ munkireport_directory }} ]];
+    then
+        echo `ls -ld {{ munkireport_directory }} | awk 'NR==1 {print $3}'`;
+    else
+        echo 'root';
+    fi
+)
+
 
 # Facts
 
@@ -25,3 +34,6 @@ echo config_installed=$(echo "$CONFIG_INSTALLED")
 
 echo [security]
 echo ssl=$(echo "$SSL")
+
+echo [repo]
+echo become=$(echo "$BECOME")

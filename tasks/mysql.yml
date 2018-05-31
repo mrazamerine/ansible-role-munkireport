@@ -9,7 +9,7 @@
 
 - name: create munkireport mysql user
   mysql_user:
-    name: mysql_munkireport_user
+    name: munkireport_user
     password: "{{ mysql_munkireport_password }}"
     priv: 'munkireport.*:ALL,GRANT'
     state: present

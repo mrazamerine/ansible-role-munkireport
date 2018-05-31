@@ -1,11 +1,23 @@
 # MunkiReport tasks - main.yml
 ---
+- name: create munkireport group
+  group:
+    name: munkireport
+    system: yes
+
 - name: create munkireport user
   user:
     name: munkireport
     comment: "MunkiReport User"
+    group: munkireport
     shell: /bin/bash
     system: yes
+
+- name: add web user (www-data) to munkireport group
+  user:
+    name: www-data
+    groups: munkireport
+    append: yes
 
 - name: include facts tasks
   include: facts.yml
@@ -36,9 +48,32 @@
     clone: yes
     update: yes
     version: "{{ munkireport_version }}"
+  become_user: "{{ ansible_local.munkireport.repo.become }}"
   notify:
     - restart nginx
     - restart php7
+
+- name: configure munkireport repo
+  git_config:
+    name: core.fileMode
+    repo: "{{ munkireport_directory }}"
+    scope: local
+    value: false
+
+- name: set munkireport repo owner
+  file:
+    path: "{{ munkireport_directory }}"
+    owner: munkireport
+    group: munkireport
+    recurse: yes
+
+- name: set munkireport repo permissions
+  file:
+    path: "{{ munkireport_directory }}/public"
+    owner: munkireport
+    group: munkireport
+    mode: 0750
+    recurse: yes
 
 - name: install composer dependencies
   composer:
@@ -46,6 +81,7 @@
     no_dev: yes
     optimize_autoloader: yes
     working_dir: "{{ munkireport_directory }}"
+  become_user: munkireport
   notify:
     - restart nginx
     - restart php7
@@ -63,8 +99,8 @@
   template:
     src: config.php.j2
     dest: "{{ munkireport_directory }}/config.php"
-    owner: root
-    group: root
+    owner: munkireport
+    group: munkireport
     mode: 0644
   notify:
     - restart nginx
