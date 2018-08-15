@@ -19,9 +19,6 @@
     groups: munkireport
     append: yes
 
-- name: include facts tasks
-  include: facts.yml
-
 - name: install required packages - munkireport
   apt:
     name: "{{ item }}"
@@ -39,7 +36,15 @@
     creates: /usr/local/bin/composer
 
 - name: include mysql tasks
-  include: mysql.yml
+  include_tasks: mysql.yml
+
+- name: create munkireport directory
+  file:
+    path: "{{ munkireport_directory }}"
+    state: directory
+    owner: munkireport
+    group: munkireport
+    mode: 0750
 
 - name: clone munkireport github repo
   git:
@@ -48,10 +53,11 @@
     clone: yes
     update: yes
     version: "{{ munkireport_version }}"
-  become_user: "{{ ansible_local.munkireport.repo.become }}"
+  become_user: munkireport
   notify:
     - restart nginx
     - restart php7
+  register: clone_munkireport_repo
 
 - name: configure munkireport repo
   git_config:
@@ -59,21 +65,18 @@
     repo: "{{ munkireport_directory }}"
     scope: local
     value: false
+  become_user: munkireport
 
-- name: set munkireport repo owner
-  file:
-    path: "{{ munkireport_directory }}"
-    owner: munkireport
-    group: munkireport
-    recurse: yes
-
-- name: set munkireport repo permissions
+- name: set persmisons for munkireport sub-directories
   file:
     path: "{{ munkireport_directory }}/public"
-    owner: munkireport
-    group: munkireport
     mode: 0750
     recurse: yes
+
+- name: run database migrations
+  command: "php {{ munkireport_directory }}/database/migrate.php"
+  become_user: munkireport
+  when: clone_munkireport_repo is changed
 
 - name: install composer dependencies
   composer:
@@ -95,19 +98,26 @@
     - restart nginx
     - restart php7
 
+- name: enable munkireport secure auth (ssl)
+  set_fact:
+    munkireport_auth_secure: "TRUE"
+  when:
+    - munkireport_ssl_cert_path is defined
+    - munkireport_ssl_privkey_path is defined
+
 - name: apply munkireport config.php template
   template:
     src: config.php.j2
     dest: "{{ munkireport_directory }}/config.php"
     owner: munkireport
     group: munkireport
-    mode: 0644
+    mode: 0640
   notify:
     - restart nginx
     - restart php7
 
 - name: include nginx tasks
-  include: nginx.yml
+  include_tasks: nginx.yml
 
 - name: ensure web services are running
   service:
