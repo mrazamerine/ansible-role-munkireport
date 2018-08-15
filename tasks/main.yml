@@ -73,11 +73,6 @@
     mode: 0750
     recurse: yes
 
-- name: run database migrations
-  command: "php {{ munkireport_directory }}/database/migrate.php"
-  become_user: munkireport
-  when: clone_munkireport_repo is changed
-
 - name: install composer dependencies
   composer:
     command: install
@@ -115,6 +110,11 @@
   notify:
     - restart nginx
     - restart php7
+
+- name: run database migrations
+  command: "php {{ munkireport_directory }}/database/migrate.php"
+  become_user: munkireport
+  when: clone_munkireport_repo is changed
 
 - name: include nginx tasks
   include_tasks: nginx.yml
