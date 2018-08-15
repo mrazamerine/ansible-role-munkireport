@@ -1,0 +1,3 @@
+# MunkiReport vars - main.yml
+---
+munkireport_auth_secure: "FALSE"

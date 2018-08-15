@@ -1,13 +1,39 @@
 # MunkiReport tasks - nginx.yml
 ---
-- name: apply nginx sites-available template
+- name: create munki ssl config file
   template:
-    src: "{{ ansible_local.munkireport.security.ssl }}.sites-available.munkireport.j2"
+    src: ssl.conf.j2
+    dest: /etc/nginx/snippets/ssl-munkireport.conf
+    owner: root
+    group: root
+    mode: 0644
+  when:
+    - munkireport_ssl_cert_path is defined
+    - munkireport_ssl_privkey_path is defined
+
+- name: apply nginx sites-available template (https)
+  template:
+    src: https.sites-available.munkireport.j2
     dest: /etc/nginx/sites-available/munkireport
     owner: root
     group: root
     mode: 0644
-  register: munkireport_sites_available
+  when:
+    - munkireport_ssl_cert_path is defined
+    - munkireport_ssl_privkey_path is defined
+  register: munkireport_sites_available_https
+  notify:
+    - restart nginx
+
+- name: apply nginx sites-available template (http)
+  template:
+    src: http.sites-available.munkireport.j2
+    dest: /etc/nginx/sites-available/munkireport
+    owner: root
+    group: root
+    mode: 0644
+  when: munkireport_sites_available_https is skipped
+  register: munkireport_sites_available_http
   notify:
     - restart nginx
 

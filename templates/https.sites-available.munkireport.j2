@@ -18,7 +18,7 @@ server {
         
         server_name {{ munkireport_domain_name }};
         
-        include snippets/ssl-{{ munkireport_domain_name }}.conf;
+        include snippets/ssl-munkireport.conf;
         include /etc/nginx/snippets/ssl-nginx-params.conf;
         
         root {{ munkireport_directory }}/public;
